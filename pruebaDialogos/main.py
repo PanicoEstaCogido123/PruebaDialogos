@@ -7,19 +7,58 @@ surface = pygame.display.set_mode((600, 400))
 #Métodos
 def set_difficulty(value, difficulty):
     pass
+
 pygame.display.set_caption('Prueba menu')
 
 #TEXTO
 white = (255, 255, 255)
+black = (0, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 128)
 X = 400
 Y = 400
-
+clock = pygame.time.Clock()
 font = pygame.font.Font('freesansbold.ttf', 32)
-text = font.render('Prueba', True, green, blue)
+text = font.render('Fin de la prueba', True, white, blue)
 textRect = text.get_rect()
 textRect.center = (X // 2, Y // 2)
+
+def pantallaInicio():
+
+    contadorTiempo = 0
+    imagen = pygame.image.load("logo.png")
+    #Pantalla en blanco
+    while(contadorTiempo<30):
+        clock.tick(60)
+        surface.fill(white)
+        pygame.display.flip()
+        contadorTiempo=contadorTiempo+1
+    contadorTiempo=0
+    #Aparacion logo
+    i=0
+    while (contadorTiempo < 240):
+        clock.tick(60)
+        if(i<255):
+            i = i + 0.5
+            imagen.set_alpha(i)
+            print(i)
+        surface.blit(imagen, (0, 0))
+        pygame.display.flip()
+        contadorTiempo=contadorTiempo + 1
+    contadorTiempo=0
+    #Desaparicion imagen
+    while (contadorTiempo < 150):
+        clock.tick(60)
+        if(i>0):
+            i = i - 1
+            imagen.set_alpha(i)
+            print(i)
+        surface.fill(black)
+        surface.blit(imagen, (0, 0))
+        pygame.display.flip()
+        contadorTiempo=contadorTiempo + 1
+#Ejecucion pantalla inicio
+pantallaInicio()
 
 #Creacion do menu personalizado
 fuente = pygame_menu.font.FONT_DIGITAL #Fuente a utilizar
@@ -56,7 +95,6 @@ def cargarPartida():
     submenu.add.button('Confirmar', iniciar)
     submenu.add.button('Atras', pygame_menu.events.RESET)
     return submenu
-
 #Creacion do menu
 menu = pygame_menu.Menu('', 300, 400,theme=mytheme)
 menu.add.button('Nueva partida', nuevaPartida())
